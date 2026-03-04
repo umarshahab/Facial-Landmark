@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:provider/provider.dart';
+import '../theme/theme_provider.dart';
 
 class HomePage extends StatelessWidget {
   final Function(int) onNavigate;
@@ -8,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       body: SafeArea(
@@ -17,15 +21,17 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               /// HEADER
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
                         "Good Morning",
-                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                        style: TextStyle(color: Colors.grey),
                       ),
                       Text(
                         "Umar",
@@ -37,7 +43,23 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
 
-                  const CircleAvatar(radius: 24, child: Icon(Icons.person)),
+                  Row(
+                    children: [
+
+                      Icon(
+                        themeProvider.isDarkMode
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                      ),
+
+                      Switch(
+                        value: themeProvider.isDarkMode,
+                        onChanged: (value) {
+                          themeProvider.toggleTheme(value);
+                        },
+                      ),
+                    ],
+                  )
                 ],
               ),
 
@@ -47,10 +69,15 @@ class HomePage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
+                  color: theme.cardColor,
                   borderRadius: BorderRadius.circular(20),
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF4A90E2), Color(0xFF357ABD)],
-                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,43 +87,59 @@ class HomePage extends StatelessWidget {
                       children: const [
                         Text(
                           "Face Balance Score",
-                          style: TextStyle(color: Colors.white70),
+                          style: TextStyle(color: Colors.grey),
                         ),
                         SizedBox(height: 6),
                         Text(
                           "87%",
                           style: TextStyle(
-                            fontSize: 32,
-                            color: Colors.white,
+                            fontSize: 28,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
 
-                    const Icon(Icons.face, color: Colors.white, size: 40),
+                    /// CIRCULAR PROGRESS
+                    CircularPercentIndicator(
+                      radius: 40,
+                      lineWidth: 8,
+                      percent: 0.87,
+                      animation: true,
+                      progressColor: theme.primaryColor,
+                      backgroundColor: Colors.grey.withOpacity(0.2),
+                      circularStrokeCap: CircularStrokeCap.round,
+                    ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
 
-              /// ACTION CARDS
+              /// FEATURE CARDS
               Row(
                 children: [
                   Expanded(
                     child: InkWell(
                       onTap: () => onNavigate(1),
+                      borderRadius: BorderRadius.circular(18),
                       child: Container(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: theme.cardColor,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
                         ),
                         child: Column(
                           children: const [
-                            Icon(Icons.show_chart, size: 30),
-                            SizedBox(height: 8),
+                            Icon(Icons.show_chart, size: 32),
+                            SizedBox(height: 10),
                             Text("Progress"),
                           ],
                         ),
@@ -109,16 +152,24 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child: InkWell(
                       onTap: () => onNavigate(2),
+                      borderRadius: BorderRadius.circular(18),
                       child: Container(
-                        padding: const EdgeInsets.all(18),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: theme.cardColor,
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(18),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
+                            ),
+                          ],
                         ),
                         child: Column(
                           children: const [
-                            Icon(Icons.smart_toy, size: 30),
-                            SizedBox(height: 8),
+                            Icon(Icons.smart_toy, size: 32),
+                            SizedBox(height: 10),
                             Text("AI Chatbot"),
                           ],
                         ),
@@ -130,30 +181,19 @@ class HomePage extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              /// WEEKLY PROGRESS TITLE
+              /// WEEKLY PROGRESS
               const Text(
                 "Weekly Progress",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
 
-              const SizedBox(height: 10),
+              const SizedBox(height: 12),
 
-              /// SIMPLE PROGRESS BAR
-              Container(
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: FractionallySizedBox(
-                  widthFactor: 0.7,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: theme.primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+              LinearProgressIndicator(
+                value: 0.7,
+                minHeight: 10,
+                borderRadius: BorderRadius.circular(20),
+                backgroundColor: Colors.grey.withOpacity(0.2),
               ),
             ],
           ),
