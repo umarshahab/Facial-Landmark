@@ -14,9 +14,14 @@ class FaceUpApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const MainNavigation(),
+
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
+
+      home: const MainNavigation(),
+
+      routes: { 
         '/progress': (context) => const ProgressPage(),
         '/chatbot': (context) => const ChatbotPage(),
       },

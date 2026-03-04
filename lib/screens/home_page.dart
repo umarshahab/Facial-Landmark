@@ -7,61 +7,150 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Welcome Back 👋",
-                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+              /// HEADER
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Good Morning",
+                        style: TextStyle(fontSize: 16, color: Colors.grey),
+                      ),
+                      Text(
+                        "Umar",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const CircleAvatar(radius: 24, child: Icon(Icons.person)),
+                ],
               ),
+
               const SizedBox(height: 30),
 
-              // CARD 1 (PROGRESS)
-              Material(
-                borderRadius: BorderRadius.circular(20),
-                child: InkWell(
+              /// FACE SCORE CARD
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  onTap: () {
-                    onNavigate(1); 
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.blue,
-                    ),
-                    child: const Text(
-                      "Progress",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF4A90E2), Color(0xFF357ABD)],
                   ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          "Face Balance Score",
+                          style: TextStyle(color: Colors.white70),
+                        ),
+                        SizedBox(height: 6),
+                        Text(
+                          "87%",
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const Icon(Icons.face, color: Colors.white, size: 40),
+                  ],
                 ),
               ),
 
               const SizedBox(height: 20),
 
-              // CARD 2 (CHATBOT)
-              Material(
-                borderRadius: BorderRadius.circular(20),
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
-                  onTap: () {
-                    onNavigate(2); 
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.green,
+              /// ACTION CARDS
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => onNavigate(1),
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: theme.cardColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          children: const [
+                            Icon(Icons.show_chart, size: 30),
+                            SizedBox(height: 8),
+                            Text("Progress"),
+                          ],
+                        ),
+                      ),
                     ),
-                    child: const Text(
-                      "Chatbot",
-                      style: TextStyle(color: Colors.white),
+                  ),
+
+                  const SizedBox(width: 16),
+
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => onNavigate(2),
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        decoration: BoxDecoration(
+                          color: theme.cardColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          children: const [
+                            Icon(Icons.smart_toy, size: 30),
+                            SizedBox(height: 8),
+                            Text("AI Chatbot"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              /// WEEKLY PROGRESS TITLE
+              const Text(
+                "Weekly Progress",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(height: 10),
+
+              /// SIMPLE PROGRESS BAR
+              Container(
+                height: 10,
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: FractionallySizedBox(
+                  widthFactor: 0.7,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.primaryColor,
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                 ),
